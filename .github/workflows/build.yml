@@ -26,3 +26,4 @@ jobs:
       with:
         if-no-files-found: error
         path: ./render-deploy.tar.gz
+        name: render-deploy-linux.tar.gz
