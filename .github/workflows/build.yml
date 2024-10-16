@@ -19,7 +19,7 @@ jobs:
     - name: Build
       run: cargo build --release
     - name: 'Tar files'
-      run: tar -cvzf render-deploy-linux.tar.gz -C target/release/render-deploy render-deploy
+      run: tar -cvzf render-deploy-linux.tar.gz -C target/release render-deploy
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
