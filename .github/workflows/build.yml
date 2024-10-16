@@ -1,4 +1,4 @@
-name: test
+name: Build and Release
 
 on:
   push:
@@ -9,9 +9,7 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Build
@@ -21,9 +19,22 @@ jobs:
     - name: Build
       run: cargo build --release
     - name: 'Tar files'
-      run: tar -cvzf render-deploy.tar.gz target/release/render-deploy
-    - uses: actions/upload-artifact@v4
+      run: tar -cvzf render-deploy-linux.tar.gz -C target/release/render-deploy render-deploy
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
       with:
         if-no-files-found: error
-        path: ./render-deploy.tar.gz
+        path: ./render-deploy-linux.tar.gz
         name: render-deploy-linux.tar.gz
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create a GitHub release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ steps.tag_version.outputs.new_tag }}
+        name: Release ${{ steps.tag_version.outputs.new_tag }}
+        body: ${{ steps.tag_version.outputs.changelog }}
+        artifacts: ./render-deploy-linux.tar.gz
