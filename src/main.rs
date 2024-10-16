@@ -356,7 +356,7 @@ fn main() {
     // trigger deploy
     let deploy = trigger_deploy(&client, &service, &config).unwrap();
     println!(
-        "Created Deploy {commit} - {message}",
+        "Created Deploy #{commit} - {message}",
         commit = deploy.commit.id,
         message = deploy.commit.message
     );
