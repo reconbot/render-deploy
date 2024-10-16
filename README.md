@@ -4,6 +4,6 @@ I want to be able to trigger production deploys and wait for them to happen. You
 
 ```bash
 # all options are optional
-$ render-deploy "SERVICE NAME" -c commitSHA --wait
+$ render-deploy -c $COMMIT_SHA --wait $SERVICE_NAME
+$ render-deploy -w $SERVICE_NAME # trigger a deploy of the service with the latest commit and wait for it to go live
 ```
-
